@@ -1,0 +1,19 @@
+version: "3"
+services:
+  gitlab:
+    image: "gitlab/gitlab-ce:latest"
+    restart: always
+    hostname: "$HOST"
+    environment:
+      GITLAB_OMNIBUS_CONFIG: |
+        external_url 'http://$HOST:8929'
+        gitlab_rails['gitlab_shell_ssh_port'] = 2224
+        # Add any other gitlab.rb configuration here, each on its own line
+    ports:
+      - "8929:8929"
+      - "2224:22"
+      - "443:443"
+    volumes:
+      - "$GITLAB_HOME/config:/etc/gitlab"
+      - "$GITLAB_HOME/logs:/var/log/gitlab"
+      - "$GITLAB_HOME/data:/var/opt/gitlab"
